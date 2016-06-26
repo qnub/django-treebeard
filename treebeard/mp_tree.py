@@ -586,7 +586,7 @@ class MP_Node(Node):
         Adds a root node to the tree.
 
         This method saves the node in database. The object is populated as if via:
-            obj = cls(**kwargs)
+            obj = cls(\*\*kwargs)
 
         :raise PathOverflow: when no more root objects can be added
         """
@@ -963,7 +963,7 @@ class MP_Node(Node):
         Adds a child to the node.
 
         This method saves the node in database. The object is populated as if via:
-            obj = self.__class__(**kwargs)
+            obj = self.__class__(\*\*kwargs)
 
         :raise PathOverflow: when no more child nodes can be added
         """
@@ -974,7 +974,7 @@ class MP_Node(Node):
         Adds a new node as a sibling to the current node object.
 
         This method saves the node in database. The object is populated as if via:
-            obj = self.__class__(**kwargs)
+            obj = self.__class__(\*\*kwargs)
 
         :raise PathOverflow: when the library can't make room for the
            node's new position
