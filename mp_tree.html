@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Materialized Path trees &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="Nested Sets trees" href="ns_tree.html" />
+    <link rel="prev" title="API" href="api.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ns_tree.html" title="Nested Sets trees"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-treebeard.mp_tree">
+<span id="materialized-path-trees"></span><h1>Materialized Path trees<a class="headerlink" href="#module-treebeard.mp_tree" title="Permalink to this headline">¶</a></h1>
+<p>This is an efficient implementation of Materialized Path
+trees for Django, as described by <a class="reference external" href="http://vadimtropashko.wordpress.com/">Vadim Tropashko</a> in <a class="reference external" href="http://www.rampant-books.com/book_2006_1_sql_coding_styles.htm">SQL Design
+Patterns</a>. Materialized Path is probably the fastest way of working with
+trees in SQL without the need of extra work in the database, like Oracle&#8217;s
+<code class="docutils literal"><span class="pre">CONNECT</span> <span class="pre">BY</span></code> or sprocs and triggers for nested intervals.</p>
+<p>In a materialized path approach, every node in the tree will have a
+<a class="reference internal" href="#treebeard.mp_tree.MP_Node.path" title="treebeard.mp_tree.MP_Node.path"><code class="xref py py-attr docutils literal"><span class="pre">path</span></code></a> attribute, where the full path from the root
+to the node will be stored. This has the advantage of needing very simple
+and fast queries, at the risk of inconsistency because of the
+denormalization of <code class="docutils literal"><span class="pre">parent</span></code>/<code class="docutils literal"><span class="pre">child</span></code> foreign keys. This can be prevented
+with transactions.</p>
+<p><code class="docutils literal"><span class="pre">django-treebeard</span></code> uses a particular approach: every step in the path has
+a fixed width and has no separators. This makes queries predictable and
+faster at the cost of using more characters to store a step. To address
+this problem, every step number is encoded.</p>
+<p>Also, two extra fields are stored in every node:
+<a class="reference internal" href="#treebeard.mp_tree.MP_Node.depth" title="treebeard.mp_tree.MP_Node.depth"><code class="xref py py-attr docutils literal"><span class="pre">depth</span></code></a> and <a class="reference internal" href="#treebeard.mp_tree.MP_Node.numchild" title="treebeard.mp_tree.MP_Node.numchild"><code class="xref py py-attr docutils literal"><span class="pre">numchild</span></code></a>.
+This makes the read operations faster, at the cost of a little more
+maintenance on tree updates/inserts/deletes. Don&#8217;t worry, even with these
+extra steps, materialized path is more efficient than other approaches.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">As with all tree implementations, please be aware of the
+<a class="reference internal" href="caveats.html"><span class="doc">Known Caveats</span></a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The materialized path approach makes heavy use of <code class="docutils literal"><span class="pre">LIKE</span></code> in your
+database, with clauses like <code class="docutils literal"><span class="pre">WHERE</span> <span class="pre">path</span> <span class="pre">LIKE</span> <span class="pre">'002003%'</span></code>. If you think
+that <code class="docutils literal"><span class="pre">LIKE</span></code> is too slow, you&#8217;re right, but in this case the
+<a class="reference internal" href="#treebeard.mp_tree.MP_Node.path" title="treebeard.mp_tree.MP_Node.path"><code class="xref py py-attr docutils literal"><span class="pre">path</span></code></a> field is indexed in the database, and all
+<code class="docutils literal"><span class="pre">LIKE</span></code> clauses that don&#8217;t <strong>start</strong> with a <code class="docutils literal"><span class="pre">%</span></code> character will use
+the index. This is what makes the materialized path approach so fast.</p>
+</div>
+<img src="_images/inheritance-e14838951854eb44958f22440f649253b295cd7c.png" alt="Inheritance diagram of MP_Node" usemap="#inheritance30e227950c" class="inheritance"/>
+<map id="inheritance30e227950c" name="inheritance30e227950c">
+<area shape="rect" id="node3" href="api.html#treebeard.models.Node" target="_top" title="Node class" alt="" coords="429,4,565,24"/>
+<area shape="rect" id="node4" href="#treebeard.mp_tree.MP_Node" target="_top" title="Abstract model to create your own Materialized Path Trees." alt="" coords="603,4,764,24"/>
+</map>
+<dl class="class">
+<dt id="treebeard.mp_tree.MP_Node">
+<em class="property">class </em><code class="descclassname">treebeard.mp_tree.</code><code class="descname">MP_Node</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="api.html#treebeard.models.Node" title="treebeard.models.Node"><code class="xref py py-class docutils literal"><span class="pre">treebeard.models.Node</span></code></a></p>
+<p>Abstract model to create your own Materialized Path Trees.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change the values of <a class="reference internal" href="#treebeard.mp_tree.MP_Node.path" title="treebeard.mp_tree.MP_Node.path"><code class="xref py py-attr docutils literal"><span class="pre">path</span></code></a>, <a class="reference internal" href="#treebeard.mp_tree.MP_Node.depth" title="treebeard.mp_tree.MP_Node.depth"><code class="xref py py-attr docutils literal"><span class="pre">depth</span></code></a> or
+<a class="reference internal" href="#treebeard.mp_tree.MP_Node.numchild" title="treebeard.mp_tree.MP_Node.numchild"><code class="xref py py-attr docutils literal"><span class="pre">numchild</span></code></a> directly: use one of the included methods instead.
+Consider these values <em>read-only</em>.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not change the values of the <a class="reference internal" href="#treebeard.mp_tree.MP_Node.steplen" title="treebeard.mp_tree.MP_Node.steplen"><code class="xref py py-attr docutils literal"><span class="pre">steplen</span></code></a>, <a class="reference internal" href="#treebeard.mp_tree.MP_Node.alphabet" title="treebeard.mp_tree.MP_Node.alphabet"><code class="xref py py-attr docutils literal"><span class="pre">alphabet</span></code></a> or
+<a class="reference internal" href="#treebeard.mp_tree.MP_Node.node_order_by" title="treebeard.mp_tree.MP_Node.node_order_by"><code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code></a> after saving your first object. Doing so will
+corrupt the tree.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>If you need to define your own
+<a class="reference external" href="https://docs.djangoproject.com/en/1.7/_objects/topics/db/managers/#django.db.models.Manager" title="(in Django v1.7)"><code class="xref py py-class docutils literal"><span class="pre">Manager</span></code></a> class,
+you&#8217;ll need to subclass
+<a class="reference internal" href="#treebeard.mp_tree.MP_NodeManager" title="treebeard.mp_tree.MP_NodeManager"><code class="xref py py-class docutils literal"><span class="pre">MP_NodeManager</span></code></a>.</p>
+<p class="last">Also, if in your manager you need to change the default
+queryset handler, you&#8217;ll need to subclass
+<a class="reference internal" href="#treebeard.mp_tree.MP_NodeQuerySet" title="treebeard.mp_tree.MP_NodeQuerySet"><code class="xref py py-class docutils literal"><span class="pre">MP_NodeQuerySet</span></code></a>.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SortedNode</span><span class="p">(</span><span class="n">MP_Node</span><span class="p">):</span>
+   <span class="n">node_order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;numval&#39;</span><span class="p">,</span> <span class="s1">&#39;strval&#39;</span><span class="p">]</span>
+
+   <span class="n">numval</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+   <span class="n">strval</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read the API reference of <code class="xref py py-class docutils literal"><span class="pre">treebeard.Node</span></code> for info on methods
+available in this class, or read the following section for methods with
+particular arguments or exceptions.</p>
+<dl class="attribute">
+<dt id="treebeard.mp_tree.MP_Node.steplen">
+<code class="descname">steplen</code><a class="headerlink" href="#treebeard.mp_tree.MP_Node.steplen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attribute that defines the length of each step in the <a class="reference internal" href="#treebeard.mp_tree.MP_Node.path" title="treebeard.mp_tree.MP_Node.path"><code class="xref py py-attr docutils literal"><span class="pre">path</span></code></a> of
+a node.  The default value of <em>4</em> allows a maximum of
+<em>1679615</em> children per node. Increase this value if you plan to store
+large trees (a <code class="docutils literal"><span class="pre">steplen</span></code> of <em>5</em> allows more than <em>60M</em> children per
+node). Note that increasing this value, while increasing the number of
+children per node, will decrease the max <a class="reference internal" href="#treebeard.mp_tree.MP_Node.depth" title="treebeard.mp_tree.MP_Node.depth"><code class="xref py py-attr docutils literal"><span class="pre">depth</span></code></a> of the tree (by
+default: <em>63</em>). To increase the max <a class="reference internal" href="#treebeard.mp_tree.MP_Node.depth" title="treebeard.mp_tree.MP_Node.depth"><code class="xref py py-attr docutils literal"><span class="pre">depth</span></code></a>, increase the
+max_length attribute of the <a class="reference internal" href="#treebeard.mp_tree.MP_Node.path" title="treebeard.mp_tree.MP_Node.path"><code class="xref py py-attr docutils literal"><span class="pre">path</span></code></a> field in your model.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="treebeard.mp_tree.MP_Node.alphabet">
+<code class="descname">alphabet</code><a class="headerlink" href="#treebeard.mp_tree.MP_Node.alphabet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attribute: the alphabet that will be used in base conversions
+when encoding the path steps into strings. The default value,
+<code class="docutils literal"><span class="pre">0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ</span></code> is the most optimal possible
+value that is portable between the supported databases (which means:
+their default collation will order the <a class="reference internal" href="#treebeard.mp_tree.MP_Node.path" title="treebeard.mp_tree.MP_Node.path"><code class="xref py py-attr docutils literal"><span class="pre">path</span></code></a> field correctly).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In case you know what you are doing, there is a test that is
+disabled by default that can tell you the optimal default alphabet
+in your enviroment. To run the test you must enable the
+<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal"><span class="pre">TREEBEARD_TEST_ALPHABET</span></code> enviroment variable:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nv">TREEBEARD_TEST_ALPHABET</span><span class="o">=</span><span class="m">1</span> py.test -k test_alphabet
+</pre></div>
+</div>
+<p>In OS X Mavericks, good readable values for the three supported
+databases in their <em>default</em> configuration:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="44%" />
+<col width="11%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Database</th>
+<th class="head">Optimal Alphabet</th>
+<th class="head">Base</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>MySQL 5.6.17</td>
+<td>0-9A-Z</td>
+<td>36</td>
+</tr>
+<tr class="row-odd"><td>PostgreSQL 9.3.4</td>
+<td>0-9A-Za-z</td>
+<td>62</td>
+</tr>
+<tr class="row-even"><td>Sqlite3</td>
+<td>0-9A-Za-z</td>
+<td>62</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The default value is MySQL&#8217;s since it will work in all DBs,
+but when working with a better database, changing the
+<a class="reference internal" href="#treebeard.mp_tree.MP_Node.alphabet" title="treebeard.mp_tree.MP_Node.alphabet"><code class="xref py py-attr docutils literal"><span class="pre">alphabet</span></code></a> value is recommended in order to increase the
+density of the paths.</p>
+<p class="last">For an even better approach, change the collation of the
+<a class="reference internal" href="#treebeard.mp_tree.MP_Node.path" title="treebeard.mp_tree.MP_Node.path"><code class="xref py py-attr docutils literal"><span class="pre">path</span></code></a> column in the database to handle raw ASCII, and
+use the printable ASCII characters (0x20 to 0x7E) as the
+<a class="reference internal" href="#treebeard.mp_tree.MP_Node.alphabet" title="treebeard.mp_tree.MP_Node.alphabet"><code class="xref py py-attr docutils literal"><span class="pre">alphabet</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="treebeard.mp_tree.MP_Node.node_order_by">
+<code class="descname">node_order_by</code><a class="headerlink" href="#treebeard.mp_tree.MP_Node.node_order_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attribute: a list of model fields that will be used for node
+ordering. When enabled, all tree operations will assume this ordering.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node_order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;field1&#39;</span><span class="p">,</span> <span class="s1">&#39;field2&#39;</span><span class="p">,</span> <span class="s1">&#39;field3&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="treebeard.mp_tree.MP_Node.path">
+<code class="descname">path</code><a class="headerlink" href="#treebeard.mp_tree.MP_Node.path" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">CharField</span></code>, stores the full materialized path for each node. The
+default value of it&#8217;s max_length, <em>255</em>, is the max efficient and
+portable value for a <code class="docutils literal"><span class="pre">varchar</span></code>. Increase it to allow deeper trees (max
+depth by default: <em>63</em>)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><cite>django-treebeard</cite> uses Django&#8217;s abstract model inheritance, so:</p>
+<ol class="last arabic">
+<li><p class="first">To change the max_length value of the path in your model, you
+can&#8217;t just define it since you&#8217;d get a django exception, you have
+to modify the already defined attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyNodeModel</span><span class="p">(</span><span class="n">MP_Node</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">MyNodeModel</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">1024</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">You can&#8217;t rely on Django&#8217;s <cite>auto_now</cite> or auto_now_add properties in
+date/datetime fields for sorting, you&#8217;ll have to manually set the
+value before creating a node:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestNodeSortedAutoNow</span><span class="p">(</span><span class="n">MP_Node</span><span class="p">):</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">created</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">node_order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span>
+
+<span class="n">TestNodeSortedAutoNow</span><span class="o">.</span><span class="n">add_root</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span>
+                               <span class="n">created</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Also, you can use another method to define your auto_now_add, this
+will also work normally:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="k">class</span> <span class="nc">TestNodeSortedAutoNow</span><span class="p">(</span><span class="n">MP_Node</span><span class="p">):</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">created</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+    <span class="n">node_order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span>
+
+<span class="n">TestNodeSortedAutoNow</span><span class="o">.</span><span class="n">add_root</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For performance, and if your database allows it, you can safely
+define the path column as ASCII (not utf-8/unicode/iso8859-1/etc) to
+keep the index smaller (and faster). Also note that some databases
+(mysql) have a small index size limit. InnoDB for instance has a
+limit of 765 bytes per index, so that would be the limit if your path
+is ASCII encoded. If your path column in InnoDB is using unicode,
+the index limit will be 255 characters since in MySQL&#8217;s indexes,
+unicode means 3 bytes per character.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">django-treebeard</span></code> uses <a class="reference external" href="https://tabo.pe/projects/numconv/">numconv</a> for path encoding.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="treebeard.mp_tree.MP_Node.depth">
+<code class="descname">depth</code><a class="headerlink" href="#treebeard.mp_tree.MP_Node.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">PositiveIntegerField</span></code>, depth of a node in the tree. A root node
+has a depth of <em>1</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="treebeard.mp_tree.MP_Node.numchild">
+<code class="descname">numchild</code><a class="headerlink" href="#treebeard.mp_tree.MP_Node.numchild" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">PositiveIntegerField</span></code>, the number of children of the node.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.mp_tree.MP_Node.add_root">
+<em class="property">classmethod </em><code class="descname">add_root</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_Node.add_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a root node to the tree.</p>
+<dl class="docutils">
+<dt>This method saves the node in database. The object is populated as if via:</dt>
+<dd>obj = cls(**kwargs)</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>PathOverflow</strong> &#8211; when no more root objects can be added</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code class="xref py py-meth docutils literal"><span class="pre">treebeard.Node.add_root()</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.mp_tree.MP_Node.add_child">
+<code class="descname">add_child</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_Node.add_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a child to the node.</p>
+<dl class="docutils">
+<dt>This method saves the node in database. The object is populated as if via:</dt>
+<dd>obj = self.__class__(**kwargs)</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>PathOverflow</strong> &#8211; when no more child nodes can be added</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code class="xref py py-meth docutils literal"><span class="pre">treebeard.Node.add_child()</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.mp_tree.MP_Node.add_sibling">
+<code class="descname">add_sibling</code><span class="sig-paren">(</span><em>pos=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_Node.add_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new node as a sibling to the current node object.</p>
+<dl class="docutils">
+<dt>This method saves the node in database. The object is populated as if via:</dt>
+<dd>obj = self.__class__(**kwargs)</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>PathOverflow</strong> &#8211; when the library can&#8217;t make room for the
+node&#8217;s new position</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code class="xref py py-meth docutils literal"><span class="pre">treebeard.Node.add_sibling()</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.mp_tree.MP_Node.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>target</em>, <em>pos=None</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_Node.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the current node and all it&#8217;s descendants to a new position
+relative to another node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>PathOverflow</strong> &#8211; when the library can&#8217;t make room for the
+node&#8217;s new position</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code class="xref py py-meth docutils literal"><span class="pre">treebeard.Node.move()</span></code></p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.mp_tree.MP_Node.get_tree">
+<em class="property">classmethod </em><code class="descname">get_tree</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_Node.get_tree" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <em>queryset</em> of nodes ordered as DFS, including the parent.
+If no parent is given, the entire tree is returned.</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code class="xref py py-meth docutils literal"><span class="pre">treebeard.Node.get_tree()</span></code></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This metod returns a queryset.</p>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.mp_tree.MP_Node.find_problems">
+<em class="property">classmethod </em><code class="descname">find_problems</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_Node.find_problems" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for problems in the tree structure, problems can occur when:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>your code breaks and you get incomplete transactions (always
+use transactions!)</li>
+<li>changing the <code class="docutils literal"><span class="pre">steplen</span></code> value in a model (you must
+<code class="xref py py-meth docutils literal"><span class="pre">dump_bulk()</span></code> first, change <code class="docutils literal"><span class="pre">steplen</span></code> and then
+<code class="xref py py-meth docutils literal"><span class="pre">load_bulk()</span></code></li>
+</ol>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple of five lists:<ol class="arabic simple">
+<li>a list of ids of nodes with characters not found in the
+<code class="docutils literal"><span class="pre">alphabet</span></code></li>
+<li>a list of ids of nodes when a wrong <code class="docutils literal"><span class="pre">path</span></code> length
+according to <code class="docutils literal"><span class="pre">steplen</span></code></li>
+<li>a list of ids of orphaned nodes</li>
+<li>a list of ids of nodes with the wrong depth value for
+their path</li>
+<li>a list of ids nodes that report a wrong number of children</li>
+</ol>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A node won&#8217;t appear in more than one list, even when it exhibits
+more than one problem. This method stops checking a node when it
+finds a problem and continues to the next node.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Problems 1, 2 and 3 can&#8217;t be solved automatically.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MyNodeModel</span><span class="o">.</span><span class="n">find_problems</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.mp_tree.MP_Node.fix_tree">
+<em class="property">classmethod </em><code class="descname">fix_tree</code><span class="sig-paren">(</span><em>destructive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_Node.fix_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solves some problems that can appear when transactions are not used and
+a piece of code breaks, leaving the tree in an inconsistent state.</p>
+<p>The problems this method solves are:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Nodes with an incorrect <code class="docutils literal"><span class="pre">depth</span></code> or <code class="docutils literal"><span class="pre">numchild</span></code> values due to
+incorrect code and lack of database transactions.</li>
+<li>&#8220;Holes&#8221; in the tree. This is normal if you move/delete nodes a
+lot. Holes in a tree don&#8217;t affect performance,</li>
+<li>Incorrect ordering of nodes when <code class="docutils literal"><span class="pre">node_order_by</span></code> is enabled.
+Ordering is enforced on <em>node insertion</em>, so if an attribute in
+<code class="docutils literal"><span class="pre">node_order_by</span></code> is modified after the node is inserted, the
+tree ordering will be inconsistent.</li>
+</ol>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>destructive</strong> &#8211; <p>A boolean value. If True, a more agressive fix_tree method will be
+attempted. If False (the default), it will use a safe (and fast!)
+fix approach, but it will only solve the <code class="docutils literal"><span class="pre">depth</span></code> and
+<code class="docutils literal"><span class="pre">numchild</span></code> nodes, it won&#8217;t fix the tree holes or broken path
+ordering.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Currently what the <code class="docutils literal"><span class="pre">destructive</span></code> method does is:</p>
+<ol class="arabic simple">
+<li>Backup the tree with <code class="xref py py-meth docutils literal"><span class="pre">dump_data()</span></code></li>
+<li>Remove all nodes in the tree.</li>
+<li>Restore the tree with <code class="xref py py-meth docutils literal"><span class="pre">load_data()</span></code></li>
+</ol>
+<p class="last">So, even when the primary keys of your nodes will be preserved,
+this method isn&#8217;t foreign-key friendly. That needs complex
+in-place tree reordering, not available at the moment (hint:
+patches are welcome).</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MyNodeModel</span><span class="o">.</span><span class="n">fix_tree</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="treebeard.mp_tree.MP_NodeManager">
+<em class="property">class </em><code class="descclassname">treebeard.mp_tree.</code><code class="descname">MP_NodeManager</code><a class="headerlink" href="#treebeard.mp_tree.MP_NodeManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.manager.Manager</span></code></p>
+<p>Custom manager for nodes in a Materialized Path tree.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="treebeard.mp_tree.MP_NodeQuerySet">
+<em class="property">class </em><code class="descclassname">treebeard.mp_tree.</code><code class="descname">MP_NodeQuerySet</code><span class="sig-paren">(</span><em>model=None</em>, <em>query=None</em>, <em>using=None</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.mp_tree.MP_NodeQuerySet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/1.7/_objects/ref/models/querysets/#django.db.models.query.QuerySet" title="(in Django v1.7)"><code class="xref py py-class docutils literal"><span class="pre">django.db.models.query.QuerySet</span></code></a></p>
+<p>Custom queryset for the tree node manager.</p>
+<p>Needed only for the custom delete method.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ns_tree.html"
+                        title="next chapter">Nested Sets trees</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mp_tree.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ns_tree.html" title="Nested Sets trees"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1045 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="Materialized Path trees" href="mp_tree.html" />
+    <link rel="prev" title="Changelog" href="changes.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mp_tree.html" title="Materialized Path trees"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="changes.html" title="Changelog"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-treebeard.models">
+<span id="api"></span><h1>API<a class="headerlink" href="#module-treebeard.models" title="Permalink to this headline">¶</a></h1>
+<img src="_images/inheritance-6bd2e4450999b4bdf6a4199d81c685e2ca0679f2.png" alt="Inheritance diagram of Node" usemap="#inheritance98f8236c1d" class="inheritance"/>
+<map id="inheritance98f8236c1d" name="inheritance98f8236c1d">
+<area shape="rect" id="node3" href="#treebeard.models.Node" target="_top" title="Node class" alt="" coords="549,5,724,31"/>
+</map>
+<dl class="class">
+<dt id="treebeard.models.Node">
+<em class="property">class </em><code class="descclassname">treebeard.models.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Node class</p>
+<p>This is the base class that defines the API of all tree models in this
+library:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="mp_tree.html#treebeard.mp_tree.MP_Node" title="treebeard.mp_tree.MP_Node"><code class="xref py py-class docutils literal"><span class="pre">treebeard.mp_tree.MP_Node</span></code></a> (materialized path)</li>
+<li><a class="reference internal" href="ns_tree.html#treebeard.ns_tree.NS_Node" title="treebeard.ns_tree.NS_Node"><code class="xref py py-class docutils literal"><span class="pre">treebeard.ns_tree.NS_Node</span></code></a> (nested sets)</li>
+<li><a class="reference internal" href="al_tree.html#treebeard.al_tree.AL_Node" title="treebeard.al_tree.AL_Node"><code class="xref py py-class docutils literal"><span class="pre">treebeard.al_tree.AL_Node</span></code></a> (adjacency list)</li>
+</ul>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Please be aware of the <a class="reference internal" href="caveats.html"><span class="doc">Known Caveats</span></a> when using this library.</p>
+</div>
+<dl class="classmethod">
+<dt id="treebeard.models.Node.add_root">
+<em class="property">classmethod </em><code class="descname">add_root</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.add_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a root node to the tree. The new root node will be the new
+rightmost root node. If you want to insert a root node at a specific
+position, use <a class="reference internal" href="#treebeard.models.Node.add_sibling" title="treebeard.models.Node.add_sibling"><code class="xref py py-meth docutils literal"><span class="pre">add_sibling()</span></code></a> in an already existing root node
+instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>**kwargs</strong> &#8211; object creation data that will be passed to the
+inherited Node model</li>
+<li><strong>instance</strong> &#8211; Instead of passing object creation data, you can
+pass an already-constructed (but not yet saved) model instance to
+be inserted into the tree.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the created node object. It will be save()d by this method.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><strong>NodeAlreadySaved</strong> &#8211; when the passed <code class="docutils literal"><span class="pre">instance</span></code> already exists
+in the database</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MyNode</span><span class="o">.</span><span class="n">add_root</span><span class="p">(</span><span class="n">numval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strval</span><span class="o">=</span><span class="s1">&#39;abcd&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or, to pass in an existing instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">new_node</span> <span class="o">=</span> <span class="n">MyNode</span><span class="p">(</span><span class="n">numval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strval</span><span class="o">=</span><span class="s1">&#39;abcd&#39;</span><span class="p">)</span>
+<span class="n">MyNode</span><span class="o">.</span><span class="n">add_root</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">new_node</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.add_child">
+<code class="descname">add_child</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.add_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a child to the node. The new node will be the new rightmost
+child. If you want to insert a node at a specific position,
+use the <a class="reference internal" href="#treebeard.models.Node.add_sibling" title="treebeard.models.Node.add_sibling"><code class="xref py py-meth docutils literal"><span class="pre">add_sibling()</span></code></a> method of an already existing
+child node instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>**kwargs</strong> &#8211; Object creation data that will be passed to the inherited Node
+model</li>
+<li><strong>instance</strong> &#8211; Instead of passing object creation data, you can
+pass an already-constructed (but not yet saved) model instance to
+be inserted into the tree.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The created node object. It will be save()d by this method.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><strong>NodeAlreadySaved</strong> &#8211; when the passed <code class="docutils literal"><span class="pre">instance</span></code> already exists
+in the database</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">numval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strval</span><span class="o">=</span><span class="s1">&#39;abcd&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or, to pass in an existing instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">new_node</span> <span class="o">=</span> <span class="n">MyNode</span><span class="p">(</span><span class="n">numval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strval</span><span class="o">=</span><span class="s1">&#39;abcd&#39;</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">new_node</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.add_sibling">
+<code class="descname">add_sibling</code><span class="sig-paren">(</span><em>pos=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.add_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new node as a sibling to the current node object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pos</strong> &#8211; <p>The position, relative to the current node object, where the
+new node will be inserted, can be one of:</p>
+<ul>
+<li><code class="docutils literal"><span class="pre">first-sibling</span></code>: the new node will be the new leftmost sibling</li>
+<li><code class="docutils literal"><span class="pre">left</span></code>: the new node will take the node&#8217;s place, which will be
+moved to the right 1 position</li>
+<li><code class="docutils literal"><span class="pre">right</span></code>: the new node will be inserted at the right of the node</li>
+<li><code class="docutils literal"><span class="pre">last-sibling</span></code>: the new node will be the new rightmost sibling</li>
+<li><code class="docutils literal"><span class="pre">sorted-sibling</span></code>: the new node will be at the right position
+according to the value of node_order_by</li>
+</ul>
+</li>
+<li><strong>**kwargs</strong> &#8211; Object creation data that will be passed to the inherited
+Node model</li>
+<li><strong>instance</strong> &#8211; Instead of passing object creation data, you can
+pass an already-constructed (but not yet saved) model instance to
+be inserted into the tree.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The created node object. It will be saved by this method.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>InvalidPosition</strong> &#8211; when passing an invalid <code class="docutils literal"><span class="pre">pos</span></code> parm</li>
+<li><strong>InvalidPosition</strong> &#8211; when <code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code> is enabled and the
+<code class="docutils literal"><span class="pre">pos</span></code> parm wasn&#8217;t <code class="docutils literal"><span class="pre">sorted-sibling</span></code></li>
+<li><strong>MissingNodeOrderBy</strong> &#8211; when passing <code class="docutils literal"><span class="pre">sorted-sibling</span></code> as <code class="docutils literal"><span class="pre">pos</span></code>
+and the <code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code> attribute is missing</li>
+<li><strong>NodeAlreadySaved</strong> &#8211; when the passed <code class="docutils literal"><span class="pre">instance</span></code> already exists
+in the database</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">add_sibling</span><span class="p">(</span><span class="s1">&#39;sorted-sibling&#39;</span><span class="p">,</span> <span class="n">numval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strval</span><span class="o">=</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or, to pass in an existing instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">new_node</span> <span class="o">=</span> <span class="n">MyNode</span><span class="p">(</span><span class="n">numval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strval</span><span class="o">=</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">add_sibling</span><span class="p">(</span><span class="s1">&#39;sorted-sibling&#39;</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">new_node</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a node and all it&#8217;s descendants.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Call our queryset&#8217;s delete to handle children removal. Subclasses
+will handle extra maintenance.</p>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.get_tree">
+<em class="property">classmethod </em><code class="descname">get_tree</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_tree" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of nodes ordered as DFS, including the parent. If
+no parent is given, the entire tree is returned.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_depth">
+<code class="descname">get_depth</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_depth" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the depth (level) of the node</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_depth</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_ancestors">
+<code class="descname">get_ancestors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_ancestors" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A queryset containing the current node object&#8217;s ancestors,
+starting by the root node and descending to the parent.
+(some subclasses may return a list)</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_ancestors</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_children">
+<code class="descname">get_children</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_children" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A queryset of all the node&#8217;s children</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_children_count">
+<code class="descname">get_children_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_children_count" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of the node&#8217;s children</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_children_count</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_descendants">
+<code class="descname">get_descendants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_descendants" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A queryset of all the node&#8217;s descendants, doesn&#8217;t
+include the node itself (some subclasses may return a list).</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_descendants</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_descendant_count">
+<code class="descname">get_descendant_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_descendant_count" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the number of descendants of a node.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_descendant_count</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_first_child">
+<code class="descname">get_first_child</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_first_child" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The leftmost node&#8217;s child, or None if it has no children.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_first_child</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_last_child">
+<code class="descname">get_last_child</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_last_child" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The rightmost node&#8217;s child, or None if it has no children.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_last_child</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_first_sibling">
+<code class="descname">get_first_sibling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_first_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The leftmost node&#8217;s sibling, can return the node itself if
+it was the leftmost sibling.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_first_sibling</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_last_sibling">
+<code class="descname">get_last_sibling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_last_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The rightmost node&#8217;s sibling, can return the node itself if
+it was the rightmost sibling.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_last_sibling</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_prev_sibling">
+<code class="descname">get_prev_sibling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_prev_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The previous node&#8217;s sibling, or None if it was the leftmost
+sibling.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_prev_sibling</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_next_sibling">
+<code class="descname">get_next_sibling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_next_sibling" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The next node&#8217;s sibling, or None if it was the rightmost
+sibling.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_next_sibling</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_parent">
+<code class="descname">get_parent</code><span class="sig-paren">(</span><em>update=False</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_parent" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the parent node of the current node object.
+Caches the result in the object itself to help in loops.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>update</strong> &#8211; Updates de cached value.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_root">
+<code class="descname">get_root</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_root" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the root node for the current node object.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_root</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.get_siblings">
+<code class="descname">get_siblings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_siblings" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A queryset of all the node&#8217;s siblings, including the node
+itself.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">get_siblings</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.is_child_of">
+<code class="descname">is_child_of</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.is_child_of" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if the node is a child of another node given as an
+argument, else, returns <code class="docutils literal"><span class="pre">False</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> &#8211; The node that will be checked as a parent</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">is_child_of</span><span class="p">(</span><span class="n">node2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.is_descendant_of">
+<code class="descname">is_descendant_of</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.is_descendant_of" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if the node is a descendant of another node given
+as an argument, else, returns <code class="docutils literal"><span class="pre">False</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> &#8211; The node that will be checked as an ancestor</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">is_descendant_of</span><span class="p">(</span><span class="n">node2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.is_sibling_of">
+<code class="descname">is_sibling_of</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.is_sibling_of" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if the node is a sibling of another node given as an
+argument, else, returns <code class="docutils literal"><span class="pre">False</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> &#8211; The node that will be checked as a sibling</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">is_sibling_of</span><span class="p">(</span><span class="n">node2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.is_root">
+<code class="descname">is_root</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.is_root" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the node is a root node (else, returns False)</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">is_root</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.is_leaf">
+<code class="descname">is_leaf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.is_leaf" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the node is a leaf node (else, returns False)</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">is_leaf</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>target</em>, <em>pos=None</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the current node and all it&#8217;s descendants to a new position
+relative to another node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>target</strong> &#8211; The node that will be used as a relative child/sibling when moving</li>
+<li><strong>pos</strong> &#8211; <p>The position, relative to the target node, where the
+current node object will be moved to, can be one of:</p>
+<ul>
+<li><code class="docutils literal"><span class="pre">first-child</span></code>: the node will be the new leftmost child of the
+<code class="docutils literal"><span class="pre">target</span></code> node</li>
+<li><code class="docutils literal"><span class="pre">last-child</span></code>: the node will be the new rightmost child of the
+<code class="docutils literal"><span class="pre">target</span></code> node</li>
+<li><code class="docutils literal"><span class="pre">sorted-child</span></code>: the new node will be moved as a child of the
+<code class="docutils literal"><span class="pre">target</span></code> node according to the value of <code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code></li>
+<li><code class="docutils literal"><span class="pre">first-sibling</span></code>: the node will be the new leftmost sibling of
+the <code class="docutils literal"><span class="pre">target</span></code> node</li>
+<li><code class="docutils literal"><span class="pre">left</span></code>: the node will take the <code class="docutils literal"><span class="pre">target</span></code> node&#8217;s place, which
+will be moved to the right 1 position</li>
+<li><code class="docutils literal"><span class="pre">right</span></code>: the node will be moved to the right of the <code class="docutils literal"><span class="pre">target</span></code>
+node</li>
+<li><code class="docutils literal"><span class="pre">last-sibling</span></code>: the node will be the new rightmost sibling of
+the <code class="docutils literal"><span class="pre">target</span></code> node</li>
+<li><code class="docutils literal"><span class="pre">sorted-sibling</span></code>: the new node will be moved as a sibling of
+the <code class="docutils literal"><span class="pre">target</span></code> node according to the value of
+<code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If no <code class="docutils literal"><span class="pre">pos</span></code> is given the library will use <code class="docutils literal"><span class="pre">last-sibling</span></code>,
+or <code class="docutils literal"><span class="pre">sorted-sibling</span></code> if <code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code> is enabled.</p>
+</div>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">None</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>InvalidPosition</strong> &#8211; when passing an invalid <code class="docutils literal"><span class="pre">pos</span></code> parm</li>
+<li><strong>InvalidPosition</strong> &#8211; when <code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code> is enabled and the
+<code class="docutils literal"><span class="pre">pos</span></code> parm wasn&#8217;t <code class="docutils literal"><span class="pre">sorted-sibling</span></code> or <code class="docutils literal"><span class="pre">sorted-child</span></code></li>
+<li><strong>InvalidMoveToDescendant</strong> &#8211; when trying to move a node to one of
+it&#8217;s own descendants</li>
+<li><strong>PathOverflow</strong> &#8211; when the library can&#8217;t make room for the
+node&#8217;s new position</li>
+<li><strong>MissingNodeOrderBy</strong> &#8211; when passing <code class="docutils literal"><span class="pre">sorted-sibling</span></code> or
+<code class="docutils literal"><span class="pre">sorted-child</span></code> as <code class="docutils literal"><span class="pre">pos</span></code> and the <code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code>
+attribute is missing</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The node can be moved under another root node.</p>
+</div>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="s1">&#39;sorted-child&#39;</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="s1">&#39;prev-sibling&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="treebeard.models.Node.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The &#8216;force_insert&#8217; and &#8216;force_update&#8217; parameters can be used to insist
+that the &#8220;save&#8221; must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.get_first_root_node">
+<em class="property">classmethod </em><code class="descname">get_first_root_node</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_first_root_node" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The first root node in the tree or <code class="docutils literal"><span class="pre">None</span></code> if it is empty.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MyNodeModel</span><span class="o">.</span><span class="n">get_first_root_node</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.get_last_root_node">
+<em class="property">classmethod </em><code class="descname">get_last_root_node</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_last_root_node" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The last root node in the tree or <code class="docutils literal"><span class="pre">None</span></code> if it is empty.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MyNodeModel</span><span class="o">.</span><span class="n">get_last_root_node</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.get_root_nodes">
+<em class="property">classmethod </em><code class="descname">get_root_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_root_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A queryset containing the root nodes in the tree.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MyNodeModel</span><span class="o">.</span><span class="n">get_root_nodes</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.load_bulk">
+<em class="property">classmethod </em><code class="descname">load_bulk</code><span class="sig-paren">(</span><em>bulk_data</em>, <em>parent=None</em>, <em>keep_ids=False</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.load_bulk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a list/dictionary structure to the tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bulk_data</strong> &#8211; <p>The data that will be loaded, the structure is a list of
+dictionaries with 2 keys:</p>
+<ul>
+<li><code class="docutils literal"><span class="pre">data</span></code>: will store arguments that will be passed for object
+creation, and</li>
+<li><code class="docutils literal"><span class="pre">children</span></code>: a list of dictionaries, each one has it&#8217;s own
+<code class="docutils literal"><span class="pre">data</span></code> and <code class="docutils literal"><span class="pre">children</span></code> keys (a recursive structure)</li>
+</ul>
+</li>
+<li><strong>parent</strong> &#8211; The node that will receive the structure as children, if not
+specified the first level of the structure will be loaded as root
+nodes</li>
+<li><strong>keep_ids</strong> &#8211; If enabled, loads the nodes with the same id that are given in the
+structure. Will error if there are nodes without id info or if the
+ids are already used.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of the added node ids.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Any internal data that you may have stored in your
+nodes&#8217; data (<code class="xref py py-attr docutils literal"><span class="pre">path</span></code>, <code class="xref py py-attr docutils literal"><span class="pre">depth</span></code>) will be
+ignored.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If your node model has a ForeignKey this method will try to load
+the related object before loading the data. If the related object
+doesn&#8217;t exist it won&#8217;t load anything and will raise a DoesNotExist
+exception. This is done because the dump_data method uses integers
+to dump related objects.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If your node model has <code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code> enabled, it will
+take precedence over the order in the structure.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;1&#39;</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;2&#39;</span><span class="p">},</span> <span class="s1">&#39;children&#39;</span><span class="p">:[</span>
+          <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;21&#39;</span><span class="p">}},</span>
+          <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;22&#39;</span><span class="p">}},</span>
+          <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;23&#39;</span><span class="p">},</span> <span class="s1">&#39;children&#39;</span><span class="p">:[</span>
+            <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;231&#39;</span><span class="p">}},</span>
+          <span class="p">]},</span>
+          <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;24&#39;</span><span class="p">}},</span>
+        <span class="p">]},</span>
+        <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;3&#39;</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;4&#39;</span><span class="p">},</span> <span class="s1">&#39;children&#39;</span><span class="p">:[</span>
+          <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:{</span><span class="s1">&#39;desc&#39;</span><span class="p">:</span><span class="s1">&#39;41&#39;</span><span class="p">}},</span>
+        <span class="p">]},</span>
+<span class="p">]</span>
+<span class="c1"># parent = None</span>
+<span class="n">MyNodeModel</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Will create:</p>
+<img src="_images/graphviz-ece991aa68cabf32d527e03c1488b1536f72bf58.png" alt="digraph load_bulk_digraph {
+&quot;1&quot;;
+&quot;2&quot;;
+&quot;2&quot; -&gt; &quot;21&quot;;
+&quot;2&quot; -&gt; &quot;22&quot;;
+&quot;2&quot; -&gt; &quot;23&quot; -&gt; &quot;231&quot;;
+&quot;2&quot; -&gt; &quot;24&quot;;
+&quot;3&quot;;
+&quot;4&quot;;
+&quot;4&quot; -&gt; &quot;41&quot;;
+}" />
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.dump_bulk">
+<em class="property">classmethod </em><code class="descname">dump_bulk</code><span class="sig-paren">(</span><em>parent=None</em>, <em>keep_ids=True</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.dump_bulk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dumps a tree branch to a python data structure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>parent</strong> &#8211; The node whose descendants will be dumped. The node itself will be
+included in the dump. If not given, the entire tree will be dumped.</li>
+<li><strong>keep_ids</strong> &#8211; Stores the id value (primary key) of every node. Enabled by
+default.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A python data structure, described with detail in
+<a class="reference internal" href="#treebeard.models.Node.load_bulk" title="treebeard.models.Node.load_bulk"><code class="xref py py-meth docutils literal"><span class="pre">load_bulk()</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">MyNodeModel</span><span class="o">.</span><span class="n">dump_bulk</span><span class="p">()</span>
+<span class="n">branch</span> <span class="o">=</span> <span class="n">MyNodeModel</span><span class="o">.</span><span class="n">dump_bulk</span><span class="p">(</span><span class="n">node_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.find_problems">
+<em class="property">classmethod </em><code class="descname">find_problems</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.find_problems" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for problems in the tree structure.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.fix_tree">
+<em class="property">classmethod </em><code class="descname">fix_tree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.fix_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solves problems that can appear when transactions are not used and
+a piece of code breaks, leaving the tree in an inconsistent state.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.get_descendants_group_count">
+<em class="property">classmethod </em><code class="descname">get_descendants_group_count</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_descendants_group_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for a very common case: get a group of siblings and the number
+of <em>descendants</em> (not only children) in every sibling.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>parent</strong> &#8211; The parent of the siblings to return. If no parent is given, the
+root nodes will be returned.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>list</cite> (<strong>NOT</strong> a Queryset) of node objects with an extra
+attribute: <cite>descendants_count</cite>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># get a list of the root nodes</span>
+<span class="n">root_nodes</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">get_descendants_group_count</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">root_nodes</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> by </span><span class="si">%s</span><span class="s1"> (</span><span class="si">%d</span><span class="s1"> replies)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">comment</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">author</span><span class="p">,</span>
+                                     <span class="n">node</span><span class="o">.</span><span class="n">descendants_count</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.get_annotated_list">
+<em class="property">classmethod </em><code class="descname">get_annotated_list</code><span class="sig-paren">(</span><em>parent=None</em>, <em>max_depth=None</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_annotated_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an annotated list from a tree branch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parent</strong> &#8211; The node whose descendants will be annotated. The node itself
+will be included in the list. If not given, the entire tree
+will be annotated.</li>
+<li><strong>max_depth</strong> &#8211; Optionally limit to specified depth</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">annotated_list</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">get_annotated_list</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>With data:</p>
+<img src="_images/graphviz-e7e37dc8512ab2c6748e55df49b011e14f28a879.png" alt="digraph get_annotated_list_digraph {
+&quot;a&quot;;
+&quot;a&quot; -&gt; &quot;ab&quot;;
+&quot;ab&quot; -&gt; &quot;aba&quot;;
+&quot;ab&quot; -&gt; &quot;abb&quot;;
+&quot;ab&quot; -&gt; &quot;abc&quot;;
+&quot;a&quot; -&gt; &quot;ac&quot;;
+}" />
+<p>Will return:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">(</span><span class="n">a</span><span class="p">,</span>     <span class="p">{</span><span class="s1">&#39;open&#39;</span><span class="p">:</span><span class="bp">True</span><span class="p">,</span>  <span class="s1">&#39;close&#39;</span><span class="p">:[],</span>    <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="p">(</span><span class="n">ab</span><span class="p">,</span>    <span class="p">{</span><span class="s1">&#39;open&#39;</span><span class="p">:</span><span class="bp">True</span><span class="p">,</span>  <span class="s1">&#39;close&#39;</span><span class="p">:[],</span>    <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+    <span class="p">(</span><span class="n">aba</span><span class="p">,</span>   <span class="p">{</span><span class="s1">&#39;open&#39;</span><span class="p">:</span><span class="bp">True</span><span class="p">,</span>  <span class="s1">&#39;close&#39;</span><span class="p">:[],</span>    <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+    <span class="p">(</span><span class="n">abb</span><span class="p">,</span>   <span class="p">{</span><span class="s1">&#39;open&#39;</span><span class="p">:</span><span class="bp">False</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">:[],</span>    <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+    <span class="p">(</span><span class="n">abc</span><span class="p">,</span>   <span class="p">{</span><span class="s1">&#39;open&#39;</span><span class="p">:</span><span class="bp">False</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+    <span class="p">(</span><span class="n">ac</span><span class="p">,</span>    <span class="p">{</span><span class="s1">&#39;open&#39;</span><span class="p">:</span><span class="bp">False</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">],</span>   <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>This can be used with a template like:</p>
+<div class="highlight-django"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span><span class="o">,</span> <span class="nv">info</span> <span class="k">in</span> <span class="nv">annotated_list</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">info.open</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        &lt;ul&gt;&lt;li&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        &lt;/li&gt;&lt;li&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span><span class="x"></span>
+
+<span class="x">    </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">close</span> <span class="k">in</span> <span class="nv">info.close</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        &lt;/li&gt;&lt;/ul&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method was contributed originally by
+<a class="reference external" href="mailto:rudi&#37;&#52;&#48;05bit&#46;com">Alexey Kinyov</a>, using an idea borrowed from
+<a class="reference external" href="https://github.com/django-mptt/django-mptt/">django-mptt</a>.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.55.</span></p>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.get_annotated_list_qs">
+<em class="property">classmethod </em><code class="descname">get_annotated_list_qs</code><span class="sig-paren">(</span><em>qs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_annotated_list_qs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an annotated list from a queryset.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="treebeard.models.Node.get_database_vendor">
+<em class="property">classmethod </em><code class="descname">get_database_vendor</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.models.Node.get_database_vendor" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the supported database vendor used by a treebeard model when
+performing read (select) or write (update, insert, delete) operations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>action</strong> &#8211; <cite>read</cite> or <cite>write</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">postgresql, mysql or sqlite</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MyNodeModel</span><span class="o">.</span><span class="n">get_database_vendor</span><span class="p">(</span><span class="s2">&quot;write&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.61.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="changes.html"
+                        title="previous chapter">Changelog</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mp_tree.html"
+                        title="next chapter">Materialized Path trees</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mp_tree.html" title="Materialized Path trees"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="changes.html" title="Changelog"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

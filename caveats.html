@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Known Caveats &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="Changelog" href="changes.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changes.html" title="Changelog"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="known-caveats">
+<h1>Known Caveats<a class="headerlink" href="#known-caveats" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="raw-queries">
+<h2>Raw Queries<a class="headerlink" href="#raw-queries" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">django-treebeard</span></code> uses Django raw SQL queries for
+some write operations, and raw queries don&#8217;t update the objects in the
+ORM since it&#8217;s being bypassed.</p>
+<p>Because of this, if you have a node in memory and plan to use it after a
+tree modification (adding/removing/moving nodes), you need to reload it.</p>
+</div>
+<div class="section" id="overriding-the-default-manager">
+<h2>Overriding the default manager<a class="headerlink" href="#overriding-the-default-manager" title="Permalink to this headline">¶</a></h2>
+<p>One of the most common source of bug reports in <code class="docutils literal"><span class="pre">django-treebeard</span></code>
+is the overriding of the default managers in the subclasses.</p>
+<p><code class="docutils literal"><span class="pre">django-treebeard</span></code> relies on the default manager for correctness
+and internal maintenance. If you override the default manager,
+by overriding the <code class="docutils literal"><span class="pre">objects</span></code> member in your subclass, you
+<em>WILL</em> have errors and inconsistencies in your tree.</p>
+<p>To avoid this problem, if you need to override the default
+manager, you&#8217;ll <em>NEED</em> to subclass the manager from
+the base manager class for the tree you are using.</p>
+<p>Read the documentation in each tree type for details.</p>
+</div>
+<div class="section" id="custom-managers">
+<h2>Custom Managers<a class="headerlink" href="#custom-managers" title="Permalink to this headline">¶</a></h2>
+<p>Related to the previous caveat, if you need to create custom
+managers, you <em>NEED</em> to subclass the manager from the
+base manager class for the tree you are using.</p>
+<p>Read the documentation in each tree type for details.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Known Caveats</a><ul>
+<li><a class="reference internal" href="#raw-queries">Raw Queries</a></li>
+<li><a class="reference internal" href="#overriding-the-default-manager">Overriding the default manager</a></li>
+<li><a class="reference internal" href="#custom-managers">Custom Managers</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="changes.html"
+                        title="next chapter">Changelog</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/caveats.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changes.html" title="Changelog"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

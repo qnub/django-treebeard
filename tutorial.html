@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="Known Caveats" href="caveats.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="caveats.html" title="Known Caveats"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>Create a basic model for your tree. In this example we&#8217;ll use a Materialized
+Path tree:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">treebeard.mp_tree</span> <span class="kn">import</span> <span class="n">MP_Node</span>
+
+<span class="k">class</span> <span class="nc">Category</span><span class="p">(</span><span class="n">MP_Node</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+    <span class="n">node_order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Category: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<p>Run syncdb:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> python manage.py syncdb
+</pre></div>
+</div>
+<p>Let&#8217;s create some nodes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">treebeard_tutorial.models</span> <span class="kn">import</span> <span class="n">Category</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">node_id</span><span class="p">:</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">node_id</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">root</span> <span class="o">=</span> <span class="n">Category</span><span class="o">.</span><span class="n">add_root</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Computer Hardware&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">node</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Memory&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">add_sibling</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Hard Drives&#39;</span><span class="p">)</span>
+<span class="go">&lt;Category: Category: Hard Drives&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">add_sibling</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;SSD&#39;</span><span class="p">)</span>
+<span class="go">&lt;Category: Category: SSD&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Desktop Memory&#39;</span><span class="p">)</span>
+<span class="go">&lt;Category: Category: Desktop Memory&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Laptop Memory&#39;</span><span class="p">)</span>
+<span class="go">&lt;Category: Category: Laptop Memory&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Server Memory&#39;</span><span class="p">)</span>
+<span class="go">&lt;Category: Category: Server Memory&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Why retrieving every node again after the first operation? Because
+<code class="docutils literal"><span class="pre">django-treebeard</span></code> uses raw queries for most write operations,
+and raw queries don&#8217;t update the django objects of the db entries they
+modify. See: <a class="reference internal" href="caveats.html"><span class="doc">Known Caveats</span></a>.</p>
+</div>
+<p>We just created this tree:</p>
+<img src="_images/graphviz-ab589befed9e2274c2b831e3e422cd2f0c3df957.png" alt="digraph introduction_digraph {
+&quot;Computer Hardware&quot;;
+&quot;Computer Hardware&quot; -&gt; &quot;Hard Drives&quot;;
+&quot;Computer Hardware&quot; -&gt; &quot;Memory&quot;;
+&quot;Memory&quot; -&gt; &quot;Desktop Memory&quot;;
+&quot;Memory&quot; -&gt; &quot;Laptop Memory&quot;;
+&quot;Memory&quot; -&gt; &quot;Server Memory&quot;;
+&quot;Computer Hardware&quot; -&gt; &quot;SSD&quot;;
+}" />
+<p>You can see the tree structure with code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Category</span><span class="o">.</span><span class="n">dump_bulk</span><span class="p">()</span>
+<span class="go">[{&#39;id&#39;: 1, &#39;data&#39;: {&#39;name&#39;: u&#39;Computer Hardware&#39;},</span>
+<span class="go">  &#39;children&#39;: [</span>
+<span class="go">     {&#39;id&#39;: 3, &#39;data&#39;: {&#39;name&#39;: u&#39;Hard Drives&#39;}},</span>
+<span class="go">     {&#39;id&#39;: 2, &#39;data&#39;: {&#39;name&#39;: u&#39;Memory&#39;},</span>
+<span class="go">      &#39;children&#39;: [</span>
+<span class="go">         {&#39;id&#39;: 5, &#39;data&#39;: {&#39;name&#39;: u&#39;Desktop Memory&#39;}},</span>
+<span class="go">         {&#39;id&#39;: 6, &#39;data&#39;: {&#39;name&#39;: u&#39;Laptop Memory&#39;}},</span>
+<span class="go">         {&#39;id&#39;: 7, &#39;data&#39;: {&#39;name&#39;: u&#39;Server Memory&#39;}}]},</span>
+<span class="go">     {&#39;id&#39;: 4, &#39;data&#39;: {&#39;name&#39;: u&#39;SSD&#39;}}]}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Category</span><span class="o">.</span><span class="n">get_annotated_list</span><span class="p">()</span>
+<span class="go">[(&lt;Category: Category: Computer Hardware&gt;,</span>
+<span class="go">  {&#39;close&#39;: [], &#39;level&#39;: 0, &#39;open&#39;: True}),</span>
+<span class="go"> (&lt;Category: Category: Hard Drives&gt;,</span>
+<span class="go">  {&#39;close&#39;: [], &#39;level&#39;: 1, &#39;open&#39;: True}),</span>
+<span class="go"> (&lt;Category: Category: Memory&gt;,</span>
+<span class="go">  {&#39;close&#39;: [], &#39;level&#39;: 1, &#39;open&#39;: False}),</span>
+<span class="go"> (&lt;Category: Category: Desktop Memory&gt;,</span>
+<span class="go">  {&#39;close&#39;: [], &#39;level&#39;: 2, &#39;open&#39;: True}),</span>
+<span class="go"> (&lt;Category: Category: Laptop Memory&gt;,</span>
+<span class="go">  {&#39;close&#39;: [], &#39;level&#39;: 2, &#39;open&#39;: False}),</span>
+<span class="go"> (&lt;Category: Category: Server Memory&gt;,</span>
+<span class="go">  {&#39;close&#39;: [0], &#39;level&#39;: 2, &#39;open&#39;: False}),</span>
+<span class="go"> (&lt;Category: Category: SSD&gt;,</span>
+<span class="go">  {&#39;close&#39;: [0, 1], &#39;level&#39;: 1, &#39;open&#39;: False})]</span>
+</pre></div>
+</div>
+<p>Read the <a class="reference internal" href="api.html#treebeard.models.Node" title="treebeard.models.Node"><code class="xref py py-class docutils literal"><span class="pre">treebeard.models.Node</span></code></a> API reference for detailed info.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="caveats.html"
+                        title="next chapter">Known Caveats</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="caveats.html" title="Known Caveats"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

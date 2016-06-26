@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running the Test Suite &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="prev" title="Forms" href="forms.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="Forms"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="running-the-test-suite">
+<h1>Running the Test Suite<a class="headerlink" href="#running-the-test-suite" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal"><span class="pre">django-treebeard</span></code> includes a comprehensive test suite. It is highly
+recommended that you run and update the test suite when you send patches.</p>
+<div class="section" id="py-test">
+<h2>py.test<a class="headerlink" href="#py-test" title="Permalink to this headline">¶</a></h2>
+<p>You will need <a class="reference external" href="http://pytest.org/">pytest</a> to run the test suite.</p>
+<p>To run the test suite:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> py.test
+</pre></div>
+</div>
+<p>You can use all the features and plugins of pytest this way.</p>
+<p>By default the test suite will run using a sqlite3 database in RAM, but you can
+change this setting environment variables:</p>
+<dl class="option">
+<dt id="cmdoption-arg-DATABASE_ENGINE">
+<code class="descname">DATABASE_ENGINE</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-arg-DATABASE_ENGINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-arg-DATABASE_NAME">
+<code class="descname">DATABASE_NAME</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-arg-DATABASE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-arg-DATABASE_USER">
+<code class="descname">DATABASE_USER</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-arg-DATABASE_USER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-arg-DATABASE_PASSWORD">
+<code class="descname">DATABASE_PASSWORD</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-arg-DATABASE_PASSWORD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-arg-DATABASE_HOST">
+<code class="descname">DATABASE_HOST</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-arg-DATABASE_HOST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-arg-DATABASE_PORT">
+<code class="descname">DATABASE_PORT</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-arg-DATABASE_PORT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the database settings to be used by the test suite. Useful if you
+want to test the same database engine/version you use in production.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tox">
+<h2>tox<a class="headerlink" href="#tox" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">django-treebeard</span></code> uses <a class="reference external" href="http://codespeak.net/tox/">tox</a> to run the test suite in all the supported
+environments:</p>
+<blockquote>
+<div><ul class="simple">
+<li>py27-dj16-sqlite</li>
+<li>py27-dj16-mysql</li>
+<li>py27-dj16-pgsql</li>
+<li>py27-dj17-sqlite</li>
+<li>py27-dj17-mysql</li>
+<li>py27-dj17-pgsql</li>
+<li>py34-dj16-sqlite</li>
+<li>py34-dj16-pgsql</li>
+<li>py34-dj17-sqlite</li>
+<li>py34-dj17-pgsql</li>
+</ul>
+</div></blockquote>
+<p>This means that the test suite will run 10 times to test every
+environment supported by <code class="docutils literal"><span class="pre">django-treebeard</span></code>. This takes a long time.
+If you want to test only one or a few environments, please use the <cite>-e</cite>
+option in <a class="reference external" href="http://codespeak.net/tox/">tox</a>, like:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> tox -e py34-dj17-pgsql
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running the Test Suite</a><ul>
+<li><a class="reference internal" href="#py-test">py.test</a></li>
+<li><a class="reference internal" href="#tox">tox</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="forms.html"
+                        title="previous chapter">Forms</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tests.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="Forms"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

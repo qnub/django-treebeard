@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Admin &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="Forms" href="forms.html" />
+    <link rel="prev" title="Exceptions" href="exceptions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="Forms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="Exceptions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="admin">
+<h1>Admin<a class="headerlink" href="#admin" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-treebeard.admin">
+<span id="api"></span><h2>API<a class="headerlink" href="#module-treebeard.admin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="treebeard.admin.TreeAdmin">
+<em class="property">class </em><code class="descclassname">treebeard.admin.</code><code class="descname">TreeAdmin</code><span class="sig-paren">(</span><em>model</em>, <em>admin_site</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.admin.TreeAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.contrib.admin.options.ModelAdmin</span></code></p>
+<p>Django Admin class for treebeard.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">treebeard.admin</span> <span class="kn">import</span> <span class="n">TreeAdmin</span>
+<span class="kn">from</span> <span class="nn">treebeard.forms</span> <span class="kn">import</span> <span class="n">movenodeform_factory</span>
+<span class="kn">from</span> <span class="nn">myproject.models</span> <span class="kn">import</span> <span class="n">MyNode</span>
+
+<span class="k">class</span> <span class="nc">MyAdmin</span><span class="p">(</span><span class="n">TreeAdmin</span><span class="p">):</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">movenodeform_factory</span><span class="p">(</span><span class="n">MyNode</span><span class="p">)</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyNode</span><span class="p">,</span> <span class="n">MyAdmin</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="treebeard.admin.admin_factory">
+<code class="descclassname">treebeard.admin.</code><code class="descname">admin_factory</code><span class="sig-paren">(</span><em>form_class</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.admin.admin_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dynamically build a TreeAdmin subclass for the given form class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>form_class</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A TreeAdmin subclass.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="interface">
+<h2>Interface<a class="headerlink" href="#interface" title="Permalink to this headline">¶</a></h2>
+<p>The features of the admin interface will depend on the tree type.</p>
+<div class="section" id="advanced-interface">
+<h3>Advanced Interface<a class="headerlink" href="#advanced-interface" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="mp_tree.html"><span class="doc">Materialized Path</span></a> and <a class="reference internal" href="ns_tree.html"><span class="doc">Nested Sets</span></a> trees have
+an AJAX interface based on <a class="reference external" href="http://www.feincms.org">FeinCMS</a>, that includes features like
+drag&amp;drop and an attractive interface.</p>
+<img alt="_images/treebeard-admin-advanced.png" src="_images/treebeard-admin-advanced.png" />
+</div>
+<div class="section" id="basic-interface">
+<h3>Basic Interface<a class="headerlink" href="#basic-interface" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="al_tree.html"><span class="doc">Adjacency List</span></a> trees have a basic admin interface.</p>
+<img alt="_images/treebeard-admin-basic.png" src="_images/treebeard-admin-basic.png" />
+</div>
+<div class="section" id="model-detail-pages">
+<h3>Model Detail Pages<a class="headerlink" href="#model-detail-pages" title="Permalink to this headline">¶</a></h3>
+<p>If a model&#8217;s field values are modified, then it is necessary to add the fields &#8216;_position&#8217; and &#8216;_ref_node_id&#8217;. Otherwise, it is not possible to create instances of the model.</p>
+<p>Example:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyAdmin</span><span class="p">(</span><span class="n">TreeAdmin</span><span class="p">):</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;is_edited&#39;</span><span class="p">,</span> <span class="s1">&#39;timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;_position&#39;</span><span class="p">,</span> <span class="s1">&#39;_ref_node_id&#39;</span><span class="p">,)</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">movenodeform_factory</span><span class="p">(</span><span class="n">MyNode</span><span class="p">)</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyNode</span><span class="p">,</span> <span class="n">MyAdmin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Admin</a><ul>
+<li><a class="reference internal" href="#module-treebeard.admin">API</a></li>
+<li><a class="reference internal" href="#interface">Interface</a><ul>
+<li><a class="reference internal" href="#advanced-interface">Advanced Interface</a></li>
+<li><a class="reference internal" href="#basic-interface">Basic Interface</a></li>
+<li><a class="reference internal" href="#model-detail-pages">Model Detail Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="exceptions.html"
+                        title="previous chapter">Exceptions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="forms.html"
+                        title="next chapter">Forms</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/admin.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="Forms"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="Exceptions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

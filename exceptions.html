@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Exceptions &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="Admin" href="admin.html" />
+    <link rel="prev" title="Adjacency List trees" href="al_tree.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="admin.html" title="Admin"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="al_tree.html" title="Adjacency List trees"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-treebeard.exceptions">
+<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-treebeard.exceptions" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="treebeard.exceptions.InvalidPosition">
+<em class="property">exception </em><code class="descclassname">treebeard.exceptions.</code><code class="descname">InvalidPosition</code><a class="headerlink" href="#treebeard.exceptions.InvalidPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when passing an invalid pos value</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="treebeard.exceptions.InvalidMoveToDescendant">
+<em class="property">exception </em><code class="descclassname">treebeard.exceptions.</code><code class="descname">InvalidMoveToDescendant</code><a class="headerlink" href="#treebeard.exceptions.InvalidMoveToDescendant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when attemping to move a node to one of it&#8217;s descendants.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="treebeard.exceptions.NodeAlreadySaved">
+<em class="property">exception </em><code class="descclassname">treebeard.exceptions.</code><code class="descname">NodeAlreadySaved</code><a class="headerlink" href="#treebeard.exceptions.NodeAlreadySaved" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when attempting to add a node which is already saved to the
+database.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="treebeard.exceptions.PathOverflow">
+<em class="property">exception </em><code class="descclassname">treebeard.exceptions.</code><code class="descname">PathOverflow</code><a class="headerlink" href="#treebeard.exceptions.PathOverflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when trying to add or move a node to a position where no more nodes
+can be added (see <code class="xref py py-attr docutils literal"><span class="pre">path</span></code> and
+<code class="xref py py-attr docutils literal"><span class="pre">alphabet</span></code> for more info)</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="treebeard.exceptions.MissingNodeOrderBy">
+<em class="property">exception </em><code class="descclassname">treebeard.exceptions.</code><code class="descname">MissingNodeOrderBy</code><a class="headerlink" href="#treebeard.exceptions.MissingNodeOrderBy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when an operation needs a missing
+<code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code> attribute</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="al_tree.html"
+                        title="previous chapter">Adjacency List trees</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="admin.html"
+                        title="next chapter">Admin</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exceptions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="admin.html" title="Admin"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="al_tree.html" title="Adjacency List trees"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

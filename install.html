@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="django-treebeard" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="django-treebeard"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">django-treebeard</span></code> needs at least <strong>Python 2.7/3.4</strong> to run, and
+<strong>Django 1.7 or better</strong>.</p>
+</div>
+<div class="section" id="installing">
+<h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<p>You have several ways to install <code class="docutils literal"><span class="pre">django-treebeard</span></code>. If you&#8217;re not sure,
+<a class="reference external" href="http://guide.python-distribute.org/pip.html">just use pip</a></p>
+<div class="section" id="pip-or-easy-install">
+<h3>pip (or easy_install)<a class="headerlink" href="#pip-or-easy-install" title="Permalink to this headline">¶</a></h3>
+<p>You can install the release versions from
+<a class="reference external" href="http://pypi.python.org/pypi/django-treebeard">django-treebeard&#8217;s PyPI page</a> using <code class="docutils literal"><span class="pre">pip</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install django-treebeard
+</pre></div>
+</div>
+<p>or if for some reason you can&#8217;t use <code class="docutils literal"><span class="pre">pip</span></code>, you can try <code class="docutils literal"><span class="pre">easy_install</span></code>,
+(at your own risk):</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> easy_install --always-unzip django-treebeard
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup-py">
+<h3>setup.py<a class="headerlink" href="#setup-py" title="Permalink to this headline">¶</a></h3>
+<p>Download a release from the <a class="reference external" href="https://tabo.pe/projects/django-treebeard/download/">treebeard download page</a> and unpack it, then
+run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> python setup.py install
+</pre></div>
+</div>
+</div>
+<div class="section" id="deb-packages">
+<h3>.deb packages<a class="headerlink" href="#deb-packages" title="Permalink to this headline">¶</a></h3>
+<p>Both Debian and Ubuntu include <code class="docutils literal"><span class="pre">django-treebeard</span></code> as a package, so you can
+just use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> apt-get install python-django-treebeard
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> aptitude install python-django-treebeard
+</pre></div>
+</div>
+<p>Remember that the packages included in linux distributions are usually not the
+most recent versions.</p>
+</div>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>Add <code class="docutils literal"><span class="pre">'treebeard'</span></code> to the
+<a class="reference external" href="https://docs.djangoproject.com/en/1.7/_objects/ref/settings/#std:setting-INSTALLED_APPS" title="(in Django v1.7)"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> section in your django
+settings file.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are going to use the <a class="reference internal" href="admin.html#treebeard.admin.TreeAdmin" title="treebeard.admin.TreeAdmin"><code class="xref py py-class docutils literal"><span class="pre">TreeAdmin</span></code></a>
+class, you need to add the path to treebeard&#8217;s templates in
+<a class="reference external" href="https://docs.djangoproject.com/en/1.7/_objects/ref/settings/#std:setting-TEMPLATE_DIRS" title="(in Django v1.7)"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a>.
+Also you need to enable
+<code class="docutils literal"><span class="pre">django.core.context_processors.request</span></code>
+in the <a class="reference external" href="https://docs.djangoproject.com/en/1.7/_objects/ref/settings/#std:setting-TEMPLATE_CONTEXT_PROCESSORS" title="(in Django v1.7)"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a>
+setting in your django settings file.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#installing">Installing</a><ul>
+<li><a class="reference internal" href="#pip-or-easy-install">pip (or easy_install)</a></li>
+<li><a class="reference internal" href="#setup-py">setup.py</a></li>
+<li><a class="reference internal" href="#deb-packages">.deb packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">django-treebeard</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="next chapter">Tutorial</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/install.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="django-treebeard"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

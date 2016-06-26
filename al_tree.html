@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adjacency List trees &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="Exceptions" href="exceptions.html" />
+    <link rel="prev" title="Nested Sets trees" href="ns_tree.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="Exceptions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ns_tree.html" title="Nested Sets trees"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-treebeard.al_tree">
+<span id="adjacency-list-trees"></span><h1>Adjacency List trees<a class="headerlink" href="#module-treebeard.al_tree" title="Permalink to this headline">¶</a></h1>
+<p>This is a simple implementation of the traditional Adjacency List Model for
+storing trees in relational databases.</p>
+<p>In the adjacency list model, every node will have a
+&#8220;<a class="reference internal" href="#treebeard.al_tree.AL_Node.parent" title="treebeard.al_tree.AL_Node.parent"><code class="xref py py-attr docutils literal"><span class="pre">parent</span></code></a>&#8221; key, that will be NULL for root nodes.</p>
+<p>Since <code class="docutils literal"><span class="pre">django-treebeard</span></code> must return trees ordered in a predictable way,
+the ordering for models without the <a class="reference internal" href="#treebeard.al_tree.AL_Node.node_order_by" title="treebeard.al_tree.AL_Node.node_order_by"><code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code></a>
+attribute will have an extra attribute that will store the relative
+position of a node between it&#8217;s siblings: <a class="reference internal" href="#treebeard.al_tree.AL_Node.sib_order" title="treebeard.al_tree.AL_Node.sib_order"><code class="xref py py-attr docutils literal"><span class="pre">sib_order</span></code></a>.</p>
+<p>The adjacency list model has the advantage of fast writes at the cost of
+slow reads. If you read more than you write, use
+<a class="reference internal" href="mp_tree.html#treebeard.mp_tree.MP_Node" title="treebeard.mp_tree.MP_Node"><code class="xref py py-class docutils literal"><span class="pre">MP_Node</span></code></a> instead.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">As with all tree implementations, please be aware of the
+<a class="reference internal" href="caveats.html"><span class="doc">Known Caveats</span></a>.</p>
+</div>
+<img src="_images/inheritance-d1d5e0737c2288f4e38235c9e0bc82fb93b42e1e.png" alt="Inheritance diagram of AL_Node" usemap="#inheritance730557996c" class="inheritance"/>
+<map id="inheritance730557996c" name="inheritance730557996c">
+<area shape="rect" id="node4" href="api.html#treebeard.models.Node" target="_top" title="Node class" alt="" coords="434,4,572,24"/>
+<area shape="rect" id="node3" href="#treebeard.al_tree.AL_Node" target="_top" title="Abstract model to create your own Adjacency List Trees." alt="" coords="610,4,764,24"/>
+</map>
+<dl class="class">
+<dt id="treebeard.al_tree.AL_Node">
+<em class="property">class </em><code class="descclassname">treebeard.al_tree.</code><code class="descname">AL_Node</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.al_tree.AL_Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="api.html#treebeard.models.Node" title="treebeard.models.Node"><code class="xref py py-class docutils literal"><span class="pre">treebeard.models.Node</span></code></a></p>
+<p>Abstract model to create your own Adjacency List Trees.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you need to define your own
+<a class="reference external" href="https://docs.djangoproject.com/en/1.7/_objects/topics/db/managers/#django.db.models.Manager" title="(in Django v1.7)"><code class="xref py py-class docutils literal"><span class="pre">Manager</span></code></a> class,
+you&#8217;ll need to subclass
+<a class="reference internal" href="#treebeard.al_tree.AL_NodeManager" title="treebeard.al_tree.AL_NodeManager"><code class="xref py py-class docutils literal"><span class="pre">AL_NodeManager</span></code></a>.</p>
+</div>
+<dl class="attribute">
+<dt id="treebeard.al_tree.AL_Node.node_order_by">
+<code class="descname">node_order_by</code><a class="headerlink" href="#treebeard.al_tree.AL_Node.node_order_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attribute: a list of model fields that will be used for node
+ordering. When enabled, all tree operations will assume this ordering.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">node_order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;field1&#39;</span><span class="p">,</span> <span class="s1">&#39;field2&#39;</span><span class="p">,</span> <span class="s1">&#39;field3&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="treebeard.al_tree.AL_Node.parent">
+<code class="descname">parent</code><a class="headerlink" href="#treebeard.al_tree.AL_Node.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">ForeignKey</span></code> to itself. This attribute <strong>MUST</strong> be defined in the
+subclass (sadly, this isn&#8217;t inherited correctly from the ABC in
+<cite>Django 1.0</cite>). Just copy&amp;paste these lines to your model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">,</span>
+                           <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children_set&#39;</span><span class="p">,</span>
+                           <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                           <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="treebeard.al_tree.AL_Node.sib_order">
+<code class="descname">sib_order</code><a class="headerlink" href="#treebeard.al_tree.AL_Node.sib_order" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">PositiveIntegerField</span></code> used to store the relative position of a node
+between it&#8217;s siblings. This attribute is mandatory <em>ONLY</em> if you don&#8217;t
+set a <a class="reference internal" href="#treebeard.al_tree.AL_Node.node_order_by" title="treebeard.al_tree.AL_Node.node_order_by"><code class="xref py py-attr docutils literal"><span class="pre">node_order_by</span></code></a> field. You can define it copy&amp;pasting this
+line in your model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">sib_order</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AL_TestNode</span><span class="p">(</span><span class="n">AL_Node</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">,</span>
+                               <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children_set&#39;</span><span class="p">,</span>
+                               <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                               <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sib_order</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">AL_TestNodeSorted</span><span class="p">(</span><span class="n">AL_Node</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">,</span>
+                               <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children_set&#39;</span><span class="p">,</span>
+                               <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                               <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">node_order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;val1&#39;</span><span class="p">,</span> <span class="s1">&#39;val2&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">]</span>
+    <span class="n">val1</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">val2</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read the API reference of <code class="xref py py-class docutils literal"><span class="pre">treebeard.Node</span></code> for info on methods
+available in this class, or read the following section for methods with
+particular arguments or exceptions.</p>
+<dl class="method">
+<dt id="treebeard.al_tree.AL_Node.get_depth">
+<code class="descname">get_depth</code><span class="sig-paren">(</span><em>update=False</em><span class="sig-paren">)</span><a class="headerlink" href="#treebeard.al_tree.AL_Node.get_depth" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the depth (level) of the node
+Caches the result in the object itself to help in loops.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>update</strong> &#8211; Updates the cached value.</td>
+</tr>
+</tbody>
+</table>
+<p>See: <code class="xref py py-meth docutils literal"><span class="pre">treebeard.Node.get_depth()</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="treebeard.al_tree.AL_NodeManager">
+<em class="property">class </em><code class="descclassname">treebeard.al_tree.</code><code class="descname">AL_NodeManager</code><a class="headerlink" href="#treebeard.al_tree.AL_NodeManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.manager.Manager</span></code></p>
+<p>Custom manager for nodes in an Adjacency List tree.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ns_tree.html"
+                        title="previous chapter">Nested Sets trees</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="exceptions.html"
+                        title="next chapter">Exceptions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/al_tree.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="Exceptions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ns_tree.html" title="Nested Sets trees"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

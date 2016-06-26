@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Changelog &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="index.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Known Caveats" href="caveats.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="caveats.html" title="Known Caveats"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="release-4-0-1-may-1-2016">
+<h2>Release 4.0.1 (May 1, 2016)<a class="headerlink" href="#release-4-0-1-may-1-2016" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Escape input in forms (Martin Koistinen / Divio)</li>
+<li>Clarification on model detail pages (Michael Huang)</li>
+</ul>
+</div>
+<div class="section" id="release-4-0-dec-28-2015">
+<h2>Release 4.0 (Dec 28, 2015)<a class="headerlink" href="#release-4-0-dec-28-2015" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added support for 3.5 and Django 1.7, 1.8 and 1.9</li>
+<li>Django 1.6 is no longer supported.</li>
+<li>Remove deprecated backports needed for now unsupported Django versions</li>
+<li>Fixed a bug with queryset deletion not handling inheritance correctly.</li>
+<li>Assorted documentation fixes</li>
+</ul>
+</div>
+<div class="section" id="release-3-0-jan-18-2015">
+<h2>Release 3.0 (Jan 18, 2015)<a class="headerlink" href="#release-3-0-jan-18-2015" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Limited tests (and hence support) to Python 2.7+/3.4+ and Django 1.6+</li>
+<li>Removed usage of deprecated Django functions.</li>
+<li>Fixed documentation issues.</li>
+<li>Fixed issues in MoveNodeForm</li>
+<li>Added get_annotated_list_qs and max_depth for get_annotated_list</li>
+</ul>
+</div>
+<div class="section" id="release-2-0-april-2-2014">
+<h2>Release 2.0 (April 2, 2014)<a class="headerlink" href="#release-2-0-april-2-2014" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Stable release.</li>
+</ul>
+</div>
+<div class="section" id="release-2-0rc2-march-2014">
+<h2>Release 2.0rc2 (March, 2014)<a class="headerlink" href="#release-2-0rc2-march-2014" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Support models that use multi-table inheritance (Matt Wescott)</li>
+<li>Tree methods called on proxy models should consistently return instances
+of that proxy model (Matt Wescott)</li>
+</ul>
+</div>
+<div class="section" id="release-2-0rc1-february-2014">
+<h2>Release 2.0rc1 (February, 2014)<a class="headerlink" href="#release-2-0rc1-february-2014" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed unicode related issue in the template tags.</li>
+<li>Major documentation cleanup.</li>
+<li>More warnings on the use of managers.</li>
+<li>Faster MP&#8217;s is_root() method.</li>
+</ul>
+</div>
+<div class="section" id="release-2-0b2-december-2013">
+<h2>Release 2.0b2 (December, 2013)<a class="headerlink" href="#release-2-0b2-december-2013" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Dropped support for Python 2.5</li>
+</ul>
+</div>
+<div class="section" id="release-2-0b1-may-29-2013">
+<h2>Release 2.0b1 (May 29, 2013)<a class="headerlink" href="#release-2-0b1-may-29-2013" title="Permalink to this headline">¶</a></h2>
+<p>This is a beta release.</p>
+<ul class="simple">
+<li>Added support for Django 1.5 and Python 3.X</li>
+<li>Updated docs: the library supports python 2.5+ and Django 1.4+. Dropped
+support for older versions</li>
+<li>Revamped admin interface for MP and NS trees, supporting drag&amp;drop to reorder
+nodes. Work on this patch was sponsored by the
+<a class="reference external" href="http://www.orcasinc.com/">Oregon Center for Applied Science</a>, inspired by <a class="reference external" href="http://www.feincms.org">FeinCMS</a> developed by
+<a class="reference external" href="http://www.isgeek.net">Jesús del Carpio</a> with tests from <a class="reference external" href="http://xbito.pe">Fernando Gutierrez</a>. Thanks ORCAS!</li>
+<li>Updated setup.py to use distribute/setuptools instead of distutils</li>
+<li>Now using pytest for testing</li>
+<li>Small optimization to ns_tree.is_root</li>
+<li>Moved treebeard.tests to it&#8217;s own directory (instead of tests.py)</li>
+<li>Added the runtests.py test runner</li>
+<li>Added tox support</li>
+<li>Fixed drag&amp;drop bug in the admin</li>
+<li>Fixed a bug when moving MP_Nodes</li>
+<li>Using .pk instead of .id when accessing nodes.</li>
+<li>Removed the Benchmark (tbbench) and example (tbexample) apps.</li>
+<li>Fixed url parts join issues in the admin.</li>
+<li>Fixed: Now installing the static resources</li>
+<li>Fixed ManyToMany form field save handling</li>
+<li>In the admin, the node is now saved when moving so it can trigger handlers
+and/or signals.</li>
+<li>Improved translation files, including javascript.</li>
+<li>Renamed Node.get_database_engine() to Node.get_database_vendor(). As the name
+implies, it returns the database vendor instead of the engine used. Treebeard
+will get the value from Django, but you can subclass the method if needed.</li>
+</ul>
+</div>
+<div class="section" id="release-1-61-jul-24-2010">
+<h2>Release 1.61 (Jul 24, 2010)<a class="headerlink" href="#release-1-61-jul-24-2010" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added admin i18n. Included translations: es, ru</li>
+<li>Fixed a bug when trying to introspect the database engine used in Django 1.2+
+while using new style db settings (DATABASES). Added
+Node.get_database_engine to deal with this.</li>
+</ul>
+</div>
+<div class="section" id="release-1-60-apr-18-2010">
+<h2>Release 1.60 (Apr 18, 2010)<a class="headerlink" href="#release-1-60-apr-18-2010" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added get_annotated_list</li>
+<li>Complete revamp of the documentation. It&#8217;s now divided in sections for easier
+reading, and the package includes .rst files instead of the html build.</li>
+<li>Added raw id fields support in the admin</li>
+<li>Fixed setup.py to make it work in 2.4 again</li>
+<li>The correct ordering in NS/MP trees is now enforced in the queryset.</li>
+<li>Cleaned up code, removed some unnecessary statements.</li>
+<li>Tests refactoring, to make it easier to spot the model being tested.</li>
+<li>Fixed support of trees using proxied models. It was broken due to a bug in
+Django.</li>
+<li>Fixed a bug in add_child when adding nodes to a non-leaf in sorted MP.</li>
+<li>There are now 648 unit tests. Test coverage is 96%</li>
+<li>This will be the last version compatible with Django 1.0. There will be a
+a 1.6.X branch maintained for urgent bug fixes, but the main development will
+focus on recent Django versions.</li>
+</ul>
+</div>
+<div class="section" id="release-1-52-dec-18-2009">
+<h2>Release 1.52 (Dec 18, 2009)<a class="headerlink" href="#release-1-52-dec-18-2009" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Really fixed the installation of templates.</li>
+</ul>
+</div>
+<div class="section" id="release-1-51-dec-16-2009">
+<h2>Release 1.51 (Dec 16, 2009)<a class="headerlink" href="#release-1-51-dec-16-2009" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Forgot to include treebeard/tempates/*.html in MANIFEST.in</li>
+</ul>
+</div>
+<div class="section" id="release-1-5-dec-15-2009">
+<h2>Release 1.5 (Dec 15, 2009)<a class="headerlink" href="#release-1-5-dec-15-2009" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-features-added">
+<h3>New features added<a class="headerlink" href="#new-features-added" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Forms<ul>
+<li>Added MoveNodeForm</li>
+</ul>
+</li>
+<li>Django Admin<ul>
+<li>Added TreeAdmin</li>
+</ul>
+</li>
+<li>MP_Node<ul>
+<li>Added 2 new checks in MP_Node.find_problems():<ol class="arabic" start="4">
+<li>a list of ids of nodes with the wrong depth value for
+their path</li>
+<li>a list of ids nodes that report a wrong number of children</li>
+</ol>
+</li>
+<li>Added a new (safer and faster but less comprehensive) MP_Node.fix_tree()
+approach.</li>
+</ul>
+</li>
+<li>Documentation<ul>
+<li>Added warnings in the documentation when subclassing MP_Node or NS_Node
+and adding a new Meta.</li>
+<li>HTML documentation is now included in the package.</li>
+<li>CHANGES file and section in the docs.</li>
+</ul>
+</li>
+<li>Other changes:<ul>
+<li>script to build documentation</li>
+<li>updated numconv.py</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="bugs-fixed">
+<h3>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added table quoting to all the sql queries that bypass the ORM.
+Solves bug in postgres when the table isn&#8217;t created by syncdb.</li>
+<li>Removing unused method NS_Node._find_next_node</li>
+<li>Fixed MP_Node.get_tree to include the given parent when given a leaf node</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-1-nov-20-2008">
+<h2>Release 1.1 (Nov 20, 2008)<a class="headerlink" href="#release-1-1-nov-20-2008" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Bugs fixed<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added exceptions.py</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-0-nov-19-2008">
+<h2>Release 1.0 (Nov 19, 2008)<a class="headerlink" href="#release-1-0-nov-19-2008" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>First public release.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#release-4-0-1-may-1-2016">Release 4.0.1 (May 1, 2016)</a></li>
+<li><a class="reference internal" href="#release-4-0-dec-28-2015">Release 4.0 (Dec 28, 2015)</a></li>
+<li><a class="reference internal" href="#release-3-0-jan-18-2015">Release 3.0 (Jan 18, 2015)</a></li>
+<li><a class="reference internal" href="#release-2-0-april-2-2014">Release 2.0 (April 2, 2014)</a></li>
+<li><a class="reference internal" href="#release-2-0rc2-march-2014">Release 2.0rc2 (March, 2014)</a></li>
+<li><a class="reference internal" href="#release-2-0rc1-february-2014">Release 2.0rc1 (February, 2014)</a></li>
+<li><a class="reference internal" href="#release-2-0b2-december-2013">Release 2.0b2 (December, 2013)</a></li>
+<li><a class="reference internal" href="#release-2-0b1-may-29-2013">Release 2.0b1 (May 29, 2013)</a></li>
+<li><a class="reference internal" href="#release-1-61-jul-24-2010">Release 1.61 (Jul 24, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-60-apr-18-2010">Release 1.60 (Apr 18, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-52-dec-18-2009">Release 1.52 (Dec 18, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-51-dec-16-2009">Release 1.51 (Dec 16, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-5-dec-15-2009">Release 1.5 (Dec 15, 2009)</a><ul>
+<li><a class="reference internal" href="#new-features-added">New features added</a></li>
+<li><a class="reference internal" href="#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#release-1-1-nov-20-2008">Release 1.1 (Nov 20, 2008)</a><ul>
+<li><a class="reference internal" href="#id1">Bugs fixed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#release-1-0-nov-19-2008">Release 1.0 (Nov 19, 2008)</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="caveats.html"
+                        title="previous chapter">Known Caveats</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">API</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/changes.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="caveats.html" title="Known Caveats"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>django-treebeard &mdash; django-treebeard 4.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '4.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-treebeard 4.0.1 documentation" href="#" />
+    <link rel="next" title="Installation" href="install.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="django-treebeard">
+<h1>django-treebeard<a class="headerlink" href="#django-treebeard" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://tabo.pe/projects/django-treebeard/">django-treebeard</a>
+is a library that implements efficient tree implementations for the
+<a class="reference external" href="http://www.djangoproject.com/">Django Web Framework 1.7+</a>, written by
+<a class="reference external" href="https://tabo.pe">Gustavo Picón</a> and licensed under the Apache License 2.0.</p>
+<p><code class="docutils literal"><span class="pre">django-treebeard</span></code> is:</p>
+<ul class="simple">
+<li><strong>Flexible</strong>: Includes 3 different tree implementations with the same API:<ol class="arabic">
+<li><a class="reference internal" href="al_tree.html"><span class="doc">Adjacency List</span></a></li>
+<li><a class="reference internal" href="mp_tree.html"><span class="doc">Materialized Path</span></a></li>
+<li><a class="reference internal" href="ns_tree.html"><span class="doc">Nested Sets</span></a></li>
+</ol>
+</li>
+<li><strong>Fast</strong>: Optimized non-naive tree operations</li>
+<li><strong>Easy</strong>: Uses Django&#8217;s
+<a class="reference external" href="https://docs.djangoproject.com/en/1.7/_objects/topics/db/models/#model-inheritance" title="(in Django v1.7)"><span>Model inheritance</span></a> with <a class="reference external" href="https://docs.djangoproject.com/en/1.7/_objects/topics/db/models/#abstract-base-classes" title="(in Django v1.7)"><span>Abstract base classes</span></a>.
+to define your own models.</li>
+<li><strong>Clean</strong>: Testable and well tested code base. Code/branch test coverage
+is above 96%. Tests are available in Jenkins:<ul>
+<li><a class="reference external" href="https://tabo.pe/jenkins/job/django-treebeard/">Tests running on different versions of Python, Django and DB engines</a></li>
+<li><a class="reference external" href="https://tabo.pe/jenkins/job/django-treebeard-quality/">Code Quality</a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installing">Installing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#pip-or-easy-install">pip (or easy_install)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#setup-py">setup.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#deb-packages">.deb packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="caveats.html">Known Caveats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="caveats.html#raw-queries">Raw Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caveats.html#overriding-the-default-manager">Overriding the default manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caveats.html#custom-managers">Custom Managers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changelog</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mp_tree.html">Materialized Path trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ns_tree.html">Nested Sets trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="al_tree.html">Adjacency List trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="additional-features">
+<h2>Additional features<a class="headerlink" href="#additional-features" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Admin</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#module-treebeard.admin">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#interface">Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="admin.html#advanced-interface">Advanced Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="admin.html#basic-interface">Basic Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="admin.html#model-detail-pages">Model Detail Pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Forms</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Running the Test Suite</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#py-test">py.test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html#tox">tox</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">django-treebeard</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#reference">Reference</a></li>
+<li><a class="reference internal" href="#additional-features">Additional features</a></li>
+<li><a class="reference internal" href="#development">Development</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="next chapter">Installation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">django-treebeard 4.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2008-2016, Gustavo Picon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>
